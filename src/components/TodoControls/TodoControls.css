@@ -1,0 +1,54 @@
+.todo-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #242b3d;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.search-filter {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.todo-controls input,
+.todo-controls select {
+  padding: 0.75rem;
+  border: 1px solid #4a5568;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: #1a1f2e;
+  color: #e2e8f0;
+}
+
+.todo-controls input {
+  width: 20%;
+  margin-left: 30%;
+}
+
+.todo-controls select {
+  width: 20%;
+  margin-right: 30%;
+}
+
+.todo-controls input::placeholder {
+  color: #718096;
+}
+
+@media (max-width: 640px) {
+  .todo-controls {
+    padding: 0.75rem;
+  }
+
+  .search-filter {
+    flex-direction: column;
+  }
+
+  .todo-controls input,
+  .todo-controls select {
+    width: 100%;
+  }
+}

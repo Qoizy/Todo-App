@@ -1,0 +1,54 @@
+.todo-item {
+  background: #242b3d;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 0.75rem;
+  text-decoration: none;
+  display: block;
+  transition: all 0.2s ease;
+  border-left: 4px solid transparent;
+}
+
+.todo-item:hover {
+  transform: translateX(5px);
+  background: #2f3b52;
+}
+
+.todo-item.completed {
+  border-left-color: #4fd1c5;
+  opacity: 0.8;
+}
+
+.todo-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.todo-title {
+  color: #e2e8f0;
+  font-size: 1rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+.todo-item.completed .todo-title {
+  color: #718096;
+  text-decoration: line-through;
+}
+
+.status-icon {
+  color: #4fd1c5;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 640px) {
+  .todo-item {
+    padding: 0.75rem 1rem;
+  }
+  
+  .todo-title {
+    font-size: 0.9rem;
+  }
+}

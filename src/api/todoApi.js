@@ -38,29 +38,30 @@ const getLocalTodos = () => {
 
 export const getTodos = async (page = 1, limit = 10) => {
   try {
-    const validPage = Math.max(1, parseInt(page) || 1);
-    const validLimit = Math.max(1, Math.min(parseInt(limit) || 10, 50));
+    // const validPage = Math.max(1, parseInt(page) || 1);
+    // const validLimit = Math.max(1, Math.min(parseInt(limit) || 10, 50));
 
-    const response = await api.get(`?_page=${validPage}&_limit=${validLimit}`);
-    const apiTodos = response.data.map((todo) => ({
-      ...todo,
-      completed: todo.completed || false,
-    }));
+    // const response = await api.get(`?_page=${validPage}&_limit=${validLimit}`);
+    // const apiTodos = response.data.map((todo) => ({
+    //   ...todo,
+    //   completed: todo.completed || false,
+    // }));
 
     // Get local todos and combine with API todos
     const localTodos = getLocalTodos();
-    const todos = [...localTodos, ...apiTodos];
+    // const todos = [...localTodos, ...apiTodos];
+    const todos = [...localTodos];
 
     return {
       todos,
-      totalCount:
-        parseInt(response.headers["x-total-count"] || "0") + localTodos?.length,
-      currentPage: validPage,
-      totalPages: Math.ceil(
-        (parseInt(response.headers["x-total-count"] || "0") +
-          localTodos.length) /
-          validLimit
-      ),
+    //   totalCount:
+    //     parseInt(response.headers["x-total-count"] || "0") + localTodos?.length,
+    //   currentPage: validPage,
+    //   totalPages: Math.ceil(
+    //     (parseInt(response.headers["x-total-count"] || "0") +
+    //       localTodos.length) /
+    //       validLimit
+    //   ),
     };
   } catch (error) {
     if (axios.isAxiosError(error)) {

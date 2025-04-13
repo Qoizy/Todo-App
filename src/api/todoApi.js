@@ -28,7 +28,7 @@ const generateLocalId = () => {
 const getLocalTodos = () => {
   // const todos = [];
   try {
-    const allTodos = localStorage.getItem(localStorageKey);
+    const allTodos = localStorage.getItem(localStorageKey) ?? "[]";
 
     return JSON.parse(allTodos);
   } catch (error) {
@@ -37,38 +37,39 @@ const getLocalTodos = () => {
 };
 
 export const getTodos = async (page = 1, limit = 10) => {
-  try {
-    const validPage = Math.max(1, parseInt(page) || 1);
-    const validLimit = Math.max(1, Math.min(parseInt(limit) || 10, 50));
-
-    const response = await api.get(`?_page=${validPage}&_limit=${validLimit}`);
-    const apiTodos = response.data.map((todo) => ({
-      ...todo,
-      completed: todo.completed || false,
-    }));
-
-    // Get local todos and combine with API todos
-    const localTodos = getLocalTodos();
-    const todos = [...localTodos, ...apiTodos];
-
-    return {
-      todos,
-      totalCount:
-        parseInt(response.headers["x-total-count"] || "0") + localTodos.length,
-      currentPage: validPage,
-      totalPages: Math.ceil(
-        (parseInt(response.headers["x-total-count"] || "0") +
-          localTodos.length) /
-          validLimit
-      ),
-    };
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(`API error: ${error.response?.data || error.message}`);
+    try {
+      // const validPage = Math.max(1, parseInt(page) || 1);
+      // const validLimit = Math.max(1, Math.min(parseInt(limit) || 10, 50));
+  
+      // const response = await api.get(`?_page=${validPage}&_limit=${validLimit}`);
+      // const apiTodos = response.data.map((todo) => ({
+      //   ...todo,
+      //   completed: todo.completed || false,
+      // }));
+  
+      // Get local todos and combine with API todos
+      const localTodos = getLocalTodos();
+      // const todos = [...localTodos, ...apiTodos];
+      const todos = [...localTodos];
+  
+      return {
+        todos,
+      //   totalCount:
+      //     parseInt(response.headers["x-total-count"] || "0") + localTodos?.length,
+      //   currentPage: validPage,
+      //   totalPages: Math.ceil(
+      //     (parseInt(response.headers["x-total-count"] || "0") +
+      //       localTodos.length) /
+      //       validLimit
+      //   ),
+      };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`API error: ${error.response?.data || error.message}`);
+      }
+      throw new Error(`Failed to fetch todos: ${error.message}`);
     }
-    throw new Error(`Failed to fetch todos: ${error.message}`);
-  }
-};
+  };
 
 export const getTodoById = async (id) => {
   if (!id) throw new Error("Todo ID is required");
@@ -188,7 +189,7 @@ export const editTodo = async (id, updatedFields, navigate) => {
       return foundTodo;
     }
 
-    const response = await api.put(`/${id}`, updatedFields);
+    // const response = await api.put(`/${id}`, updatedFields);
     let generatedLocalId = generateLocalId();
 
     localStorage.setItem(

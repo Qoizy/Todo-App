@@ -28,7 +28,7 @@ const generateLocalId = () => {
 const getLocalTodos = () => {
   // const todos = [];
   try {
-    const allTodos = localStorage.getItem(localStorageKey);
+    const allTodos = localStorage.getItem(localStorageKey) ?? "[]";
 
     return JSON.parse(allTodos);
   } catch (error) {
@@ -54,7 +54,7 @@ export const getTodos = async (page = 1, limit = 10) => {
     return {
       todos,
       totalCount:
-        parseInt(response.headers["x-total-count"] || "0") + localTodos.length,
+        parseInt(response.headers["x-total-count"] || "0") + localTodos?.length,
       currentPage: validPage,
       totalPages: Math.ceil(
         (parseInt(response.headers["x-total-count"] || "0") +
@@ -188,7 +188,7 @@ export const editTodo = async (id, updatedFields, navigate) => {
       return foundTodo;
     }
 
-    const response = await api.put(`/${id}`, updatedFields);
+    // const response = await api.put(`/${id}`, updatedFields);
     let generatedLocalId = generateLocalId();
 
     localStorage.setItem(
